@@ -1,55 +1,55 @@
-# stages:
-#   - build
-#   - test
-#   - build_push_docker_image
-#   - k8s_deploy
+stages:
+  - build
+  - test
+  - build_push_docker_image
+  - k8s_deploy
 
 
-# variables:
-#   DOCKER_IMAGE: inventiv-it
-#   IMAGE_TAG: $CI_PIPELINE_ID
+variables:
+  DOCKER_IMAGE: inventiv-it
+  IMAGE_TAG: $CI_PIPELINE_ID
 
-# build-job:
-#   image: maven:3-jdk-8-alpine
-#   stage: build
-#   script:
-#     - mvn clean package -B
-#   artifacts:
-#     paths:
-#       - target/*.jar
+build-job:
+  image: maven:3-jdk-8-alpine
+  stage: build
+  script:
+    - mvn clean package -B
+  artifacts:
+    paths:
+      - target/*.jar
 
 
-# unit_test-job:
-#   image: maven:3-jdk-8-alpine
-#   stage: test
-#   script:
-#     - mvn test
+unit_test-job:
+  image: maven:3-jdk-8-alpine
+  stage: test
+  script:
+    - mvn test
 
-#   artifacts:
-#     paths:
-#       - target/*.jar
+  artifacts:
+    paths:
+      - target/*.jar
     
-# integration_test-job:
-#   image: openjdk:8-jdk-slim
-#   stage: test
-#   before_script: 
-#     - apt-get update && apt-get install -y curl
-#   script:
-#     - java -jar target/*.jar &
-#     - sleep 20  
-#     - curl -X GET http://localhost:8080/ | grep "Spring is here!"
+integration_test-job:
+  image: openjdk:8-jdk-slim
+  stage: test
+  before_script: 
+    - apt-get update && apt-get install -y curl
+  script:
+    - java -jar target/*.jar &
+    - sleep 20  
+    - curl -X GET http://localhost:8080/ | grep "Spring is here!"
 
 
-# docker-job:
-#   stage: build_push_docker_image
-#   image: docker:24.0.5
-#   services:
-#     - docker:24.0.5-dind
-#   script:
-#     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#     - echo "docker image tag  $IMAGE_TAG"
-#     - docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG .
-#     - docker push $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
+docker-job:
+  stage: build_push_docker_image
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "docker image tag  $IMAGE_TAG"
+    - docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG .
+    - docker push $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
 
 
 deploy_gooogle_k8s:
