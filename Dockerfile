@@ -18,11 +18,11 @@ RUN mvn dependency:go-offline -B && mvn clean package -DskipTests
 FROM openjdk:8-jre-slim   
 
 # it is recomended to use non-root user as a security reasons 
-RUN useradd -m spring && chown -R spring:spring /app
 
 # Set the working directory to /app
 WORKDIR /app
 
+RUN useradd -m spring && chown -R spring:spring /app
 # this will copy the code from the image labeled `build` into this image 
 # and this is in fact the advantages of multistage. all the maven dependencies installed previously 
 # are not figuring out in this last image
