@@ -27,7 +27,7 @@ unit_test-job:
   artifacts:
     when: always
     reports:
-      junit: build/test-results/test/**/TEST-*.xml
+      junit: target/surefire-reports/TEST-*.xml
     
 integration_test-job:
   image: openjdk:8-jdk-slim
