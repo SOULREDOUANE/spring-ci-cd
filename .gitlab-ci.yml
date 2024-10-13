@@ -21,9 +21,11 @@ test-job:
   stage: test
   script:
     - mvn test
+    - curl -X GET http://localhost:8080/
   artifacts:
     paths:
       - target/*.jar
+    
 
 deploy-job:
   stage: deploy
@@ -35,5 +37,6 @@ deploy-job:
   script:
     - docker build -t $APP_IMAGE:$IMAGE_TAG .
     - docker run --name=$APP_IMAGE --rm --network=host $APP_IMAGE:$IMAGE_TAG &
+    - docker ps
     - sleep 10  # Wait for the application to start (adjust as needed)
     - docker ps
