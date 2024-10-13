@@ -53,19 +53,14 @@ docker-job:
 
 
 deploy_gooogle_k8s:
-  # stage: k8s_deploy
+  stage: k8s_deploy
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   before_script: 
-    # - mkdir -p /var/lib/apt/lists/partial
-    # - apt-get clean
-    # - apt-get update -y 
-    # - apt-get install  -y gettext
 
     - kubectl config get-contexts
     - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent-2
-
 # this will be executed only once
     # -  |
     #   kubectl create secret docker-registry docker-hub-secret \
@@ -73,7 +68,6 @@ deploy_gooogle_k8s:
     #     --docker-password=$DOCKER_PASSWORD \
     #     --docker-email=$DOCKER_EMAIL \
     #     --docker-server=docker.io
-
   script:
     - envsubst < deployement.yml | kubectl apply -f -
-    # - kubectl set image deployment/spring-app-deployment spring-app-container=$DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
+  
