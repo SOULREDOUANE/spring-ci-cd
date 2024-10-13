@@ -16,7 +16,8 @@ build-job:
     paths:
       - target/*.jar
 
-test-job:
+
+unit_test-job:
   image: maven:3-jdk-8-alpine
   stage: test
   script:
@@ -26,6 +27,16 @@ test-job:
     paths:
       - target/*.jar
     
+integration_test-job:
+  image: openjdk:17-jdk-slim
+  stage: test
+  script:
+    # Start the application in the background
+    - java -jar target/*.jar &
+    - sleep 20  # Wait for the application to start
+    # Test if the application is responding correctly
+    - curl -X GET http://localhost:8080/ | grep "Spring is here!"
+
 
 deploy-job:
   stage: deploy
