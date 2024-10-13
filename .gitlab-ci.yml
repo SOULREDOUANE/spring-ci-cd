@@ -64,7 +64,7 @@ deploy:
     - kubectl create secret docker-registry docker_hub_secret \
       --docker-username=$DOCKER_USERNAME \
       --docker-password=$DOCKER_PASSWORD \
-      --docker-email=$DOCKER_EMAIL  \
+      --docker-email=$DOCKER_EMAIL \
       --docker-server=docker.io
 
 
