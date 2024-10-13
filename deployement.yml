@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: spring-app-container
-          image: inventiv-it:$CI_PIPELINE_ID
+          image: $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
+
           ports:
             - containerPort: 8080
 ---
