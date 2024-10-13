@@ -1,64 +1,61 @@
-# stages:
-#   - build
-#   - test
-#   - deploy
+stages:
+  - build
+  - test
+  - build_push_docker_image
+  - k8s_deploy
 
-# variables:
-#   APP_IMAGE: inventiv-it
-#   IMAGE_TAG: $CI_PIPELINE_ID
+variables:
+  APP_IMAGE: inventiv-it
+  IMAGE_TAG: $CI_PIPELINE_ID
 
-# build-job:
-#   image: maven:3-jdk-8-alpine
-#   stage: build
-#   script:
-#     - mvn clean package -B
-#   artifacts:
-#     paths:
-#       - target/*.jar
-
-
-# unit_test-job:
-#   image: maven:3-jdk-8-alpine
-#   stage: test
-#   script:
-#     - mvn test
-
-#   artifacts:
-#     paths:
-#       - target/*.jar
-    
-# integration_test-job:
-#   image: openjdk:8-jdk-slim
-#   stage: test
-#   before_script: 
-#     - apt-get update && apt-get install -y curl
-#   script:
-#     - java -jar target/*.jar &
-#     - sleep 20  
-#     - curl -X GET http://localhost:8080/ | grep "Spring is here!"
-
-
-# deploy-job:
-#   stage: deploy
-#   image: docker:24.0.5
-#   variables:
-#     FF_NETWORK_PER_BUILD: "true"
-#   services:
-#     - docker:24.0.5-dind
-#   script:
-#     - docker build -t $APP_IMAGE:$IMAGE_TAG .
-#     - docker run --name=$APP_IMAGE --rm --network=host $APP_IMAGE:$IMAGE_TAG &
-#     - docker ps
-#     - sleep 10  # Wait for the application to start (adjust as needed)
-#     - docker ps
-
-
-deploy:
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: ['']
+build-job:
+  image: maven:3-jdk-8-alpine
+  stage: build
   script:
-    - kubectl config get-contexts
-    - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent
-    - kubectl get pods
-    - kubectl get nodes
+    - mvn clean package -B
+  artifacts:
+    paths:
+      - target/*.jar
+
+
+unit_test-job:
+  image: maven:3-jdk-8-alpine
+  stage: test
+  script:
+    - mvn test
+
+  artifacts:
+    paths:
+      - target/*.jar
+    
+integration_test-job:
+  image: openjdk:8-jdk-slim
+  stage: test
+  before_script: 
+    - apt-get update && apt-get install -y curl
+  script:
+    - java -jar target/*.jar &
+    - sleep 20  
+    - curl -X GET http://localhost:8080/ | grep "Spring is here!"
+
+
+deploy-job:
+  stage: build_push_docker_image
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t  $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG .
+    - docker push $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
+
+
+# deploy:
+#   image:
+#     name: bitnami/kubectl:latest
+#     entrypoint: ['']
+#   script:
+#     - kubectl config get-contexts
+#     - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent
+#     - kubectl get pods
+#     - kubectl get nodes
