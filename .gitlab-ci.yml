@@ -9,7 +9,7 @@ variables:
   DOCKER_IMAGE: inventiv-it
   IMAGE_TAG: $CI_PIPELINE_ID
 
-build-job:
+build_job:
   image: maven:3-jdk-8-alpine
   stage: build
   script:
@@ -19,7 +19,20 @@ build-job:
       - target/*.jar
 
 
-unit_test-job:
+test-jdk11:
+  stage: test
+  image: !reference [build_job , image]
+  script:
+    - mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: jacoco
+        path: target/site/jacoco/jacoco.xml
+
+
+
+.unit_test-job:
   image: maven:3-jdk-8-alpine
   stage: test
   script:
@@ -29,7 +42,7 @@ unit_test-job:
     paths:
       - target/*.jar
     
-integration_test-job:
+.integration_test-job:
   image: openjdk:8-jdk-slim
   stage: test
   before_script: 
@@ -40,7 +53,7 @@ integration_test-job:
     - curl -X GET http://localhost:8080/ | grep "Spring is here!"
 
 
-docker-job:
+.docker-job:
   stage: build_push_docker_image
   image: docker:24.0.5
   services:
@@ -52,7 +65,7 @@ docker-job:
     - docker push $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
 
 
-deploy_gooogle_k8s:
+.deploy_gooogle_k8s:
   stage: k8s_deploy
   image:
     name: bitnami/kubectl:latest
