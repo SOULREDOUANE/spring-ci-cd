@@ -37,4 +37,4 @@ USER spring
 EXPOSE 8080
 
 
-CMD [ "sh", "-c", "mvn -Dserver.port=${PORT} spring-boot:run" ]
+CMD ["java", "-jar", "app.jar"]
