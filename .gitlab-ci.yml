@@ -6,7 +6,7 @@ stages:
 
 
 variables:
-  APP_IMAGE: inventiv-it
+  DOCKER_IMAGE: inventiv-it
   IMAGE_TAG: $CI_PIPELINE_ID
 
 build-job:
