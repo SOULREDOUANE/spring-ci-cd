@@ -27,8 +27,11 @@ test-job:
 
 deploy-job:
   stage: deploy
+  image: docker:24.0.5
   variables:
     FF_NETWORK_PER_BUILD: "true"
+  services:
+    - docker:24.0.5-dind
   script:
     - docker build -t $APP_IMAGE:$IMAGE_TAG .
     - docker run --name=$APP_IMAGE --rm --network=host $APP_IMAGE:$IMAGE_TAG &
