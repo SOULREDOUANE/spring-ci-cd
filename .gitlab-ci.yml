@@ -61,11 +61,12 @@ deploy:
     - kubectl config get-contexts
     - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent
 
-    - kubectl create secret docker-registry docker-hub-secret \
-      --docker-username=$DOCKER_USERNAME \
-      --docker-password=$DOCKER_PASSWORD \
-      --docker-email=$DOCKER_EMAIL \
-      --docker-server=docker.io
+    -  |
+      kubectl create secret docker-registry docker-hub-secret \
+        --docker-username=$DOCKER_USERNAME \
+        --docker-password=$DOCKER_PASSWORD \
+        --docker-email=$DOCKER_EMAIL \
+        --docker-server=docker.io
 
 
 
