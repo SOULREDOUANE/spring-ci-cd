@@ -67,12 +67,12 @@ deploy_gooogle_k8s:
     - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent-2
 
 # this will be executed only once
-    -  |
-      kubectl create secret docker-registry docker-hub-secret \
-        --docker-username=$DOCKER_USERNAME \
-        --docker-password=$DOCKER_PASSWORD \
-        --docker-email=$DOCKER_EMAIL \
-        --docker-server=docker.io
+    # -  |
+    #   kubectl create secret docker-registry docker-hub-secret \
+    #     --docker-username=$DOCKER_USERNAME \
+    #     --docker-password=$DOCKER_PASSWORD \
+    #     --docker-email=$DOCKER_EMAIL \
+    #     --docker-server=docker.io
 
   script:
     - envsubst < deployement.yaml > output-deployment.yaml
