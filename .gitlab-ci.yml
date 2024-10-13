@@ -59,5 +59,6 @@ deploy:
     entrypoint: ['']
   script:
     - kubectl config get-contexts
-    - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:agent-name
+    - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent
     - kubectl get pods
+    - kubectl get nodes
