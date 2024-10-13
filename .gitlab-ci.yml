@@ -58,8 +58,8 @@ deploy_gooogle_k8s:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   before_script: 
-    - apt update -y 
-    - apt install  -y gettext
+    - apt-get update -y 
+    - apt-get install  -y gettext
 
     - kubectl config get-contexts
     - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent-2
