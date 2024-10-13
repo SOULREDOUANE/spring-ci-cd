@@ -1,0 +1,11 @@
+ci_access:
+  projects:
+    - id: SOULREDOUANE/spring-app-ci-cd
+
+
+
+user_access: 
+    access_as: 
+        agent : {}
+    projects : 
+        - id : SOULREDOUANE/spring-app-ci-cd
