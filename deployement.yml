@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring-app-container
-          image: $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
+          image: "${DOCKER_USERNAME}/${DOCKER_IMAGE}:${IMAGE_TAG}"
 
           ports:
             - containerPort: 8080
