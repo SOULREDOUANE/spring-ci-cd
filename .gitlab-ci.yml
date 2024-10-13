@@ -52,12 +52,20 @@ deploy-job:
     - docker push $DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
 
 
-# deploy:
-#   image:
-#     name: bitnami/kubectl:latest
-#     entrypoint: ['']
-#   script:
-#     - kubectl config get-contexts
-#     - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent
-#     - kubectl get pods
-#     - kubectl get nodes
+deploy:
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  before_script: 
+    - kubectl config get-contexts
+    - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent
+
+    - kubectl create secret docker-registry docker_hub_secret \
+      --docker-username=$DOCKER_USERNAME \
+      --docker-password=$DOCKER_PASSWORD \
+      --docker-email=$DOCKER_EMAIL
+
+  script:
+    - kubectl get pods
+    - kubectl get nodes
+    
