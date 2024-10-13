@@ -53,6 +53,7 @@ deploy-job:
 
 
 deploy:
+  stage: k8s_deploy
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
@@ -68,4 +69,5 @@ deploy:
   script:
     - kubectl get pods
     - kubectl get nodes
+    - kubectl apply -f deployement.yml 
     
