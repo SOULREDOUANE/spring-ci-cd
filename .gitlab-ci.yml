@@ -28,7 +28,7 @@ unit_test-job:
       - target/*.jar
     
 integration_test-job:
-  image: openjdk:17-jdk-slim
+  image: openjdk:8-jdk-slim
   stage: test
   before_script: 
     - apt-get update && apt-get install -y curl
