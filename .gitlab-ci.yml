@@ -75,6 +75,6 @@ deploy_gooogle_k8s:
     #     --docker-server=docker.io
 
   script:
-    - envsubst < deployement.yaml > output-deployment.yaml
+    - envsubst < deployement.yml > output-deployment.yaml
     - kubectl apply -f output-deployment.yml 
-    - kubectl set image deployment/spring-app-deployment spring-app-container=$DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
+    # - kubectl set image deployment/spring-app-deployment spring-app-container=$DOCKER_USERNAME/$DOCKER_IMAGE:$IMAGE_TAG
