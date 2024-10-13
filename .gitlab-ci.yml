@@ -4,6 +4,7 @@ stages:
   - build_push_docker_image
   - k8s_deploy
 
+
 variables:
   APP_IMAGE: inventiv-it
   IMAGE_TAG: $CI_PIPELINE_ID
