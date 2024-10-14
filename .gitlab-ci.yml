@@ -53,7 +53,7 @@ deploy_gooogle_k8s:
   before_script: 
 
     - kubectl config get-contexts
-    - kubectl config use-context SOULREDOUANE/spring-app-ci-cd:google-agent-2
+    - kubectl config use-context soulredouane1/spring-app-ci-cd:google-agent
   script:
     - envsubst < deployement.yml | kubectl apply -f -
   
