@@ -1,12 +1,18 @@
-
-trigger: 
+trigger:
 - master
-pool : 
-    name: default 
-    demands : 
+
+pool:
+  name: default
+  demands:
     - agent.name -equals ubuntu-agent
 
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
