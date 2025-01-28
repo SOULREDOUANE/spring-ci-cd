@@ -4,7 +4,7 @@ trigger:
 pool : 
     name: default 
     demands : 
-    - agent.name -equals third-agent
+    - agent.name -equals ubuntu-2-agent
 
 steps:
 - task: Maven@3
