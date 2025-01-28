@@ -4,7 +4,7 @@ trigger:
 pool:
   name: default
   demands:
-    - agent.name -equals ubuntu-agent
+    - agent.name -equals test-agent
 
 steps:
 - task: JavaToolInstaller@0
