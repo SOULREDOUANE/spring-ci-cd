@@ -5,7 +5,6 @@ pool :
     name: default 
     demands : 
     - agent.name -equals third-agent
-
 steps:
 - task: Maven@3
   inputs:
