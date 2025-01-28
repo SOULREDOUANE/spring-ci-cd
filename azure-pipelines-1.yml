@@ -4,7 +4,7 @@ trigger:
 pool:
   name: default
   demands:
-    - agent.name -equals test-agent
+    - agent.name -equals testagent
 
 steps:
 - task: JavaToolInstaller@0
