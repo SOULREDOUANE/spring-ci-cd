@@ -4,20 +4,11 @@ trigger:
 pool:
   name: default
   demands:
-    - agent.name -equals ubuntu-agent
+    - agent.name -equals jesa-agent
 
 
-variables:
-  JAVA_HOME: '/usr/lib/jvm/java-17-openjdk-amd64'
-  JAVA_HOME_17_X64: '/usr/lib/jvm/java-17-openjdk-amd64'
 
 steps:
-- script: |
-    export PATH=$JAVA_HOME/bin:$PATH
-    echo "Java version:"
-    java -version
-  displayName: 'Check Java version'
-  # shell: bash
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
