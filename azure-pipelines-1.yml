@@ -10,14 +10,14 @@ pool:
 variables:
   JAVA_HOME: '/usr/lib/jvm/java-17-openjdk-amd64'
   JAVA_HOME_17_X64: '/usr/lib/jvm/java-17-openjdk-amd64'
-  PATH: $(JAVA_HOME)/bin:$(PATH)
 
 steps:
 - script: |
+    export PATH=$JAVA_HOME/bin:$PATH
     echo "Java version:"
     java -version
   displayName: 'Check Java version'
-
+  # shell: bash
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
