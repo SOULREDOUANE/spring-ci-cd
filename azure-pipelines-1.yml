@@ -6,23 +6,25 @@ pool:
   demands:
     - agent.name -equals ubuntu-agent
 
+
+variables:
+  JAVA_HOME: '/usr/lib/jvm/java-17-openjdk-amd64'
+  JAVA_HOME_17_X64: '/usr/lib/jvm/java-17-openjdk-amd64'
+  PATH: $(JAVA_HOME)/bin:$(PATH)
+
 steps:
-- task: JavaToolInstaller@0
+- script: |
+    echo "Java version:"
+    java -version
+  displayName: 'Check Java version'
+
+- task: Maven@4
   inputs:
-    versionSpec: '17'
+    mavenPomFile: 'pom.xml'
+    # mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.17'
     jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'AzureStorage'
-    azureStorageAccountName: 'java'
-    azureContainerName: 'downloads'
-    azureCommonVirtualFile: 'jdk-17.0.8_linux-x64_bin.tar.gz'
-    jdkDestinationDirectory: '/usr/lib/jvm/java-17-openjdk-amd64'
-# - task: Maven@4
-#   inputs:
-#     mavenPomFile: 'pom.xml'
-#     # mavenOptions: '-Xmx3072m'
-#     javaHomeOption: 'JDKVersion'
-#     jdkVersionOption: '1.17'
-#     jdkArchitectureOption: 'x64'
-#     publishJUnitResults: true
-#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#     goals: 'package'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
