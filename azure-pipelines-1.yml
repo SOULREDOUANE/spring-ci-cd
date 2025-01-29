@@ -11,7 +11,11 @@ steps:
   inputs:
     versionSpec: '17'
     jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
+    jdkSourceOption: 'AzureStorage'
+    azureStorageAccountName: 'java'
+    azureContainerName: 'downloads'
+    azureCommonVirtualFile: 'jdk-17.0.8_linux-x64_bin.tar.gz'
+    jdkDestinationDirectory: '/usr/lib/jvm/java-17-openjdk-amd64'
 # - task: Maven@4
 #   inputs:
 #     mavenPomFile: 'pom.xml'
